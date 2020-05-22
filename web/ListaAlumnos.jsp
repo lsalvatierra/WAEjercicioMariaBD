@@ -15,38 +15,42 @@
         <title>JSP Page</title>
     </head>
     <body>
-         <%@include file="layout.jsp" %>
-         <%
-            
-            List<Alumno> listAlumnos = (List<Alumno>) request.getAttribute("lstalumnos");
-
-        %>
- <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Código</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Apellidos</th>
-                    <th scope="col">Especialidad</th>
-                </tr>
-            </thead>
-            <tbody>
+        <%@include file="layout.jsp" %>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Listado de Cursos</h5>
                 <%
-                    for (int i = 0; i < listAlumnos.size(); i++) {                        
-                %>
-                <tr>
-                    <th scope="row"><%=i%></th>
-                    <td><%=listAlumnos.get(i).getIdAlumno()%></td>
-                    <td><%=listAlumnos.get(i).getNomAlumno()%></td>
-                    <td><%=listAlumnos.get(i).getApeAlumno()%></td>
-                    <td><%=listAlumnos.get(i).getNomEspecialidad()%></td>
-                </tr>  
-                <%}
-                %>
 
-            </tbody>
-        </table>          
-        
+                    List<Alumno> listAlumnos = (List<Alumno>) request.getAttribute("lstalumnos");
+
+                %>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Código</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellidos</th>
+                            <th scope="col">Especialidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%                    for (int i = 0; i < listAlumnos.size(); i++) {
+                        %>
+                        <tr>
+                            <th scope="row"><%=i%></th>
+                            <td><%=listAlumnos.get(i).getIdAlumno()%></td>
+                            <td><%=listAlumnos.get(i).getNomAlumno()%></td>
+                            <td><%=listAlumnos.get(i).getApeAlumno()%></td>
+                            <td><%=listAlumnos.get(i).getNomEspecialidad()%></td>
+                        </tr>  
+                        <%}
+                        %>
+                    </tbody>
+                </table>                 
+            </div>
+        </div>
+
+
     </body>
 </html>
