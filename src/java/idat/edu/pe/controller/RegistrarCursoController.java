@@ -36,7 +36,13 @@ public class RegistrarCursoController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        String idcurso = request.getParameter("idcurso");
+        if(idcurso != "0"){
+            Curso objCurso = new MantCursoDAO().ObtenerCurso(idcurso);
+            request.setAttribute("objcurso", objCurso);
+        }
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/FormCurso.jsp");
+        dispatcher.forward(request, response);
     }
 
     /**
@@ -52,8 +58,14 @@ public class RegistrarCursoController extends HttpServlet {
             throws ServletException, IOException {
           String nomcurso = request.getParameter("txtnomcurso");
           int credcurso = Integer.parseInt(request.getParameter("txtcredcurso"));
-          Curso objCurso = new Curso("", nomcurso, credcurso);
-          boolean res = new MantCursoDAO().RegistrarCurso(objCurso);
+          String idcurso = request.getParameter("hddidcurso");
+          Curso objCurso = new Curso(idcurso, nomcurso, credcurso);
+          boolean res = false;
+          if(idcurso.equals("0")){
+             res = new MantCursoDAO().RegistrarCurso(objCurso);
+          }else {
+             res = new MantCursoDAO().ActualizarCurso(objCurso);
+          }          
           String respuesta = "Error al registrar el curso", colormsg = "danger";
           if(res){
               respuesta = "Se registró el curso correctamente";

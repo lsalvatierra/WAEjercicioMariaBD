@@ -67,4 +67,71 @@ public class MantCursoDAO implements IMantCursoDAO {
         return rpta;        
     }
 
+    @Override
+    public boolean ActualizarCurso(Curso objCurso) {
+        BDConnection coneBD = new BDConnection();
+        Connection con = coneBD.EstablecerConexion();
+        Boolean rpta = false;
+        try{
+            PreparedStatement pst 
+                    = con.prepareStatement(
+                            "{call sp_MantActualizarCurso(?,?,?)}");
+            pst.setString(1, objCurso.getIdcurso());
+            pst.setString(2, objCurso.getNomcurso());
+            pst.setInt(3, objCurso.getCredito());
+            pst.execute();
+            rpta = pst.getUpdateCount() > 0;
+            pst.close();
+            coneBD.Desconectar();            
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
+        return rpta;        
+    }
+
+    @Override
+    public boolean EliminarCurso(String idCurso) {
+        BDConnection coneBD = new BDConnection();
+        Connection con = coneBD.EstablecerConexion();
+        Boolean rpta = false;
+        try{
+            PreparedStatement pst 
+                    = con.prepareStatement(
+                            "{call sp_MantEliminarCurso(?)}");
+            pst.setString(1, idCurso);
+            pst.execute();
+            rpta = pst.getUpdateCount() > 0;
+            pst.close();
+            coneBD.Desconectar();            
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
+        return rpta;        
+    }
+
+    @Override
+    public Curso ObtenerCurso(String idCurso) {
+        Curso objCurso = null;
+        BDConnection coneBD = new BDConnection();
+        Connection con = coneBD.EstablecerConexion();
+        try {
+            PreparedStatement pst 
+                    = con.prepareStatement(
+                            "{call sp_MantObtenerCursos(?)}");
+            pst.setString(1, idCurso);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                objCurso = new Curso(rs.getString(1),
+                                rs.getString(2),
+                                rs.getInt(3));
+            }
+            rs.close();
+            pst.close();
+            coneBD.Desconectar();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return objCurso;        
+    }
+
 }

@@ -16,4 +16,7 @@ public interface IMantCursoDAO {
     
     public List<Curso> ListarCursos(); 
     public boolean RegistrarCurso(Curso objCurso); 
+    public boolean ActualizarCurso(Curso objCurso); 
+    public boolean EliminarCurso(String idCurso);
+    public Curso ObtenerCurso(String idCurso);
 }
